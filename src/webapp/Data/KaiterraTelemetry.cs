@@ -7,7 +7,7 @@ namespace webapp.Data
 
     public class KaiterraTelemetryPoint {
         public DateTime ts { get; set; }
-        public float value {get;set}
+        public float value {get;set;}
     }
     public class KaiterraTelemetry
     {
@@ -17,10 +17,5 @@ namespace webapp.Data
         public int Span {get;set;}
 
         public KaiterraTelemetryPoint[] Points {get;set;}
-    }
-
-    public class KaiterraDeviceReading
-    {
-        public KaiterraTelemetry[] Data {get;set;}
     }
 }

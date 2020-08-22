@@ -1,13 +1,13 @@
 ﻿@page "/fetchdata"
 
 @using webapp.Data
-@inject WeatherForecastService ForecastService
+@inject KaiterraService KaiterraService
 
-<h1>Weather forecast</h1>
+<h1>Kaiterra retrieval</h1>
 
 <p>This component demonstrates fetching data from a service.</p>
 
-@if (forecasts == null)
+@if (telemetry == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -23,13 +23,14 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var reading in telemetry)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@reading.Param</td>
+                    @foreach (var point in reading.Points)
+                    {
+                        <td>@point.ts @point.value</td>
+                    }
                 </tr>
             }
         </tbody>
@@ -37,10 +38,10 @@ else
 }
 
 @code {
-    private WeatherForecast[] forecasts;
+    private KaiterraTelemetry[] telemetry;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        telemetry = await KaiterraService.GetTelemetry();
     }
 }
