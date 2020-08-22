@@ -1,7 +1,57 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+@using webapp.Data
+@inject KaiterraService KaiterraService
 
-Welcome to your new app.
+<h1>Kaiterra retrieval</h1>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (telemetry == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Param</th>
+                <th>Units</th>
+                <th>Span</th>
+                <th>Readings</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reading in telemetry)
+            {
+                <tr>
+                    <td>@reading.Param</td>
+                    <td>@reading.Units</td>
+                    <td>@reading.Span</td>
+                    <td>
+                        <table>
+                        @foreach (var point in reading.Points)
+                        {
+                            <tr>
+                                <td>@point.ts</td>
+                                <td>@point.value</td>
+                            </tr>
+                        }
+                        </table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private KaiterraTelemetry[] telemetry;
+    private KaiterraResponse response;
+    protected override async Task OnInitializedAsync()
+    {
+        response = await KaiterraService.GetTelemetry();
+        telemetry = response.Data;
+    }
+}
