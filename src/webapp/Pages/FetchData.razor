@@ -16,10 +16,10 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
+                <th>Param</th>
+                <th>Units</th>
+                <th>Span</th>
+                <th>Readings</th>
             </tr>
         </thead>
         <tbody>
@@ -27,10 +27,19 @@ else
             {
                 <tr>
                     <td>@reading.Param</td>
-                    @foreach (var point in reading.Points)
-                    {
-                        <td>@point.ts @point.value</td>
-                    }
+                    <td>@reading.Units</td>
+                    <td>@reading.Span</td>
+                    <td>
+                        <table>
+                        @foreach (var point in reading.Points)
+                        {
+                            <tr>
+                                <td>@point.ts</td>
+                                <td>@point.value</td>
+                            </tr>
+                        }
+                        </table>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -39,9 +48,10 @@ else
 
 @code {
     private KaiterraTelemetry[] telemetry;
-
+    private KaiterraResponse response;
     protected override async Task OnInitializedAsync()
     {
-        telemetry = await KaiterraService.GetTelemetry();
+        response = await KaiterraService.GetTelemetry();
+        telemetry = response.Data;
     }
 }

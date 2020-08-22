@@ -4,14 +4,8 @@ using System;
 
 namespace webapp.Data
 {
-
-    public class KaiterraTelemetryPoint {
-        public DateTime ts { get; set; }
-        public float value {get;set;}
-    }
     public class KaiterraTelemetry
     {
-
         public string Param {get;set;}
         public string Units{get;set;}
         public int Span {get;set;}

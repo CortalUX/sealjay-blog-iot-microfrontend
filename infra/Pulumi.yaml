@@ -1,0 +1,6 @@
+name: iot-microfrontend
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: A microfrontend to render telemetry updates in realtime using Blazor.
